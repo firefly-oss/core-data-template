@@ -1,29 +1,11 @@
 spring:
   application:
-    name: common-platform-user-mgmt
+    name: core-data-template
     version: 1.0.0
-    description: User Management Core Application
+    description: Core Data Template Application
     team:
       name: Firefly Software Solutions Inc
       email: dev@getfirefly.io
-
-  r2dbc:
-    pool:
-      initial-size: 5
-      max-size: 10
-      max-idle-time: 30m
-      validation-query: SELECT 1
-    url: r2dbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}?sslMode=${DB_SSL_MODE}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-
-  flyway:
-    enabled: true
-    baseline-on-migrate: true
-    locations: classpath:db/migration
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}?sslMode=${DB_SSL_MODE}
-    user: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
 
   threads:
     virtual:
@@ -33,6 +15,46 @@ server:
   address: ${SERVER_ADDRESS:localhost}
   port: ${SERVER_PORT:8080}
   shutdown: graceful
+
+# Firefly Data Configuration
+firefly:
+  data:
+    # Enable EDA integration
+    eda:
+      enabled: true
+
+    # Enable CQRS integration
+    cqrs:
+      enabled: true
+
+    # Job orchestration configuration
+    orchestration:
+      enabled: true
+      orchestrator-type: MOCK  # Start with MOCK for development
+      publish-job-events: true
+      job-events-topic: my-service-job-events
+
+      # Observability settings
+      observability:
+        tracing-enabled: true
+        metrics-enabled: true
+        metric-prefix: myservice.jobs
+
+      # Health check settings
+      health-check:
+        enabled: true
+        timeout: 5s
+
+      # Resiliency settings
+      resiliency:
+        circuit-breaker-enabled: true
+        retry-enabled: true
+        rate-limiter-enabled: true
+        bulkhead-enabled: true
+
+    # Transactional engine (optional)
+    transactional:
+      enabled: false
 
 springdoc:
   api-docs:
@@ -44,7 +66,7 @@ springdoc:
     operationsSorter: method
     docExpansion: none
     filter: true
-  packages-to-scan: com.firefly.core.users.web.controllers
+  packages-to-scan: com.firefly.core.data.template.web.controllers
   paths-to-match: /api/**
 
 management:
@@ -62,6 +84,7 @@ management:
       enabled: true
     readinessState:
       enabled: true
+
 
 logging:
   pattern:
