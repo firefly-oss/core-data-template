@@ -1,0 +1,516 @@
+openapi: 3.0.1
+info:
+  title: core-data-template
+  description: Core Data Template Application
+  contact:
+    name: Firefly Software Solutions Inc
+    email: dev@getfirefly.io
+  version: 1.0.0
+servers:
+  - url: http://core.getfirefly.io/data-template
+    description: Development Environment
+  - url: /
+    description: Local Development Environment
+paths:
+  /api/v1/orders/jobs/{executionId}/stop:
+    post:
+      tags:
+        - order-data-job-controller
+      summary: Stop a running job
+      description: Stops a running job execution. The job will be terminated and cannot be resumed.
+      operationId: stopJob
+      parameters:
+        - name: executionId
+          in: path
+          description: The job execution ID
+          required: true
+          schema:
+            type: string
+        - name: requestId
+          in: query
+          description: Optional request ID for tracing
+          required: false
+          schema:
+            type: string
+        - name: reason
+          in: query
+          description: Optional reason for stopping the job
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Job stopped successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '404':
+          description: Job execution not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '500':
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+  /api/v1/orders/jobs/start:
+    post:
+      tags:
+        - order-data-job-controller
+      summary: Start a new data processing job
+      description: Initiates a new data processing job with the provided parameters. The job type and stage are determined by the endpoint and service implementation.
+      operationId: startJob
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobStartRequest'
+        required: true
+      responses:
+        '200':
+          description: Job started successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '400':
+          description: Invalid request parameters
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '500':
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+  /api/v1/customers/jobs/{executionId}/stop:
+    post:
+      tags:
+        - customer-data-job-controller
+      summary: Stop a running job
+      description: Stops a running job execution. The job will be terminated and cannot be resumed.
+      operationId: stopJob_1
+      parameters:
+        - name: executionId
+          in: path
+          description: The job execution ID
+          required: true
+          schema:
+            type: string
+        - name: requestId
+          in: query
+          description: Optional request ID for tracing
+          required: false
+          schema:
+            type: string
+        - name: reason
+          in: query
+          description: Optional reason for stopping the job
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Job stopped successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '404':
+          description: Job execution not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '500':
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+  /api/v1/customers/jobs/start:
+    post:
+      tags:
+        - customer-data-job-controller
+      summary: Start a new data processing job
+      description: Initiates a new data processing job with the provided parameters. The job type and stage are determined by the endpoint and service implementation.
+      operationId: startJob_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobStartRequest'
+        required: true
+      responses:
+        '200':
+          description: Job started successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '400':
+          description: Invalid request parameters
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '500':
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+  /api/v1/orders/jobs/{executionId}/result:
+    get:
+      tags:
+        - order-data-job-controller
+      summary: Get job final results
+      description: Retrieves the final results from a completed job and performs cleanup
+      operationId: getJobResult
+      parameters:
+        - name: executionId
+          in: path
+          description: The job execution ID
+          required: true
+          schema:
+            type: string
+        - name: requestId
+          in: query
+          description: Optional request ID for tracing
+          required: false
+          schema:
+            type: string
+        - name: targetDtoClass
+          in: query
+          description: Target DTO class for result mapping
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Results retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '404':
+          description: Job execution not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '500':
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+  /api/v1/orders/jobs/{executionId}/collect:
+    get:
+      tags:
+        - order-data-job-controller
+      summary: Collect job results
+      description: Gathers intermediate or final results from a job execution
+      operationId: collectJobResults
+      parameters:
+        - name: executionId
+          in: path
+          description: The job execution ID
+          required: true
+          schema:
+            type: string
+        - name: requestId
+          in: query
+          description: Optional request ID for tracing
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Results collected successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '404':
+          description: Job execution not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '500':
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+  /api/v1/orders/jobs/{executionId}/check:
+    get:
+      tags:
+        - order-data-job-controller
+      summary: Check job status
+      description: Retrieves the current status and progress of a running job
+      operationId: checkJob
+      parameters:
+        - name: executionId
+          in: path
+          description: The job execution ID
+          required: true
+          schema:
+            type: string
+        - name: requestId
+          in: query
+          description: Optional request ID for tracing
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Status retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '404':
+          description: Job execution not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '500':
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+  /api/v1/customers/jobs/{executionId}/result:
+    get:
+      tags:
+        - customer-data-job-controller
+      summary: Get job final results
+      description: Retrieves the final results from a completed job and performs cleanup
+      operationId: getJobResult_1
+      parameters:
+        - name: executionId
+          in: path
+          description: The job execution ID
+          required: true
+          schema:
+            type: string
+        - name: requestId
+          in: query
+          description: Optional request ID for tracing
+          required: false
+          schema:
+            type: string
+        - name: targetDtoClass
+          in: query
+          description: Target DTO class for result mapping
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Results retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '404':
+          description: Job execution not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '500':
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+  /api/v1/customers/jobs/{executionId}/collect:
+    get:
+      tags:
+        - customer-data-job-controller
+      summary: Collect job results
+      description: Gathers intermediate or final results from a job execution
+      operationId: collectJobResults_1
+      parameters:
+        - name: executionId
+          in: path
+          description: The job execution ID
+          required: true
+          schema:
+            type: string
+        - name: requestId
+          in: query
+          description: Optional request ID for tracing
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Results collected successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '404':
+          description: Job execution not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '500':
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+  /api/v1/customers/jobs/{executionId}/check:
+    get:
+      tags:
+        - customer-data-job-controller
+      summary: Check job status
+      description: Retrieves the current status and progress of a running job
+      operationId: checkJob_1
+      parameters:
+        - name: executionId
+          in: path
+          description: The job execution ID
+          required: true
+          schema:
+            type: string
+        - name: requestId
+          in: query
+          description: Optional request ID for tracing
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Status retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '404':
+          description: Job execution not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+        '500':
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JobStageResponse'
+components:
+  schemas:
+    JobStageResponse:
+      type: object
+      properties:
+        stage:
+          type: string
+          description: The job stage that was executed
+          example: START
+          enum:
+            - START
+            - CHECK
+            - COLLECT
+            - RESULT
+            - STOP
+            - ALL
+        executionId:
+          type: string
+          description: Unique identifier for the job execution
+          example: exec-123-456
+        status:
+          type: string
+          description: Current status of the job execution
+          example: RUNNING
+          enum:
+            - RUNNING
+            - SUCCEEDED
+            - FAILED
+            - TIMED_OUT
+            - ABORTED
+            - UNKNOWN
+        success:
+          type: boolean
+          description: Whether the operation was successful
+          example: true
+        message:
+          type: string
+          description: Human-readable message about the operation
+          example: Job started successfully
+        progressPercentage:
+          type: integer
+          description: Progress percentage (0-100), primarily used in CHECK stage
+          format: int32
+          example: 75
+        data:
+          type: object
+          additionalProperties:
+            type: object
+            description: Result data from the job operation
+          description: Result data from the job operation
+        error:
+          type: string
+          description: Error message if the operation failed
+          example: Job execution not found
+        timestamp:
+          type: string
+          description: Timestamp when the response was generated
+          format: date-time
+          example: '2025-10-15T10:30:00Z'
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+            description: Additional metadata about the operation
+          description: Additional metadata about the operation
+      description: Response from a job stage operation
+    JobStartRequest:
+      required:
+        - parameters
+      type: object
+      properties:
+        parameters:
+          type: object
+          additionalProperties:
+            type: object
+            description: Input parameters for the job execution
+            example:
+              customerId: '12345'
+              includeHistory: true
+          description: Input parameters for the job execution
+          example:
+            customerId: '12345'
+            includeHistory: true
+        requestId:
+          type: string
+          description: Optional request ID for tracing and correlation
+          example: req-001
+        initiator:
+          type: string
+          description: User or system that initiated the request
+          example: user@example.com
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+            description: Additional metadata for the job
+            example: '{"department":"sales","priority":"high"}'
+          description: Additional metadata for the job
+          example:
+            department: sales
+            priority: high
+      description: Request to start a new data processing job
