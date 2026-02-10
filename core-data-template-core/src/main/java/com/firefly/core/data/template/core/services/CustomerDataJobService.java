@@ -1,14 +1,14 @@
 package com.firefly.core.data.template.core.services;
 
-import com.firefly.common.data.model.JobStage;
-import com.firefly.common.data.model.JobStageRequest;
-import com.firefly.common.data.model.JobStageResponse;
-import com.firefly.common.data.observability.JobMetricsService;
-import com.firefly.common.data.observability.JobTracingService;
-import com.firefly.common.data.orchestration.model.JobExecutionRequest;
-import com.firefly.common.data.orchestration.port.JobOrchestrator;
-import com.firefly.common.data.resiliency.ResiliencyDecoratorService;
-import com.firefly.common.data.service.AbstractResilientDataJobService;
+import org.fireflyframework.data.model.JobStage;
+import org.fireflyframework.data.model.JobStageRequest;
+import org.fireflyframework.data.model.JobStageResponse;
+import org.fireflyframework.data.observability.JobMetricsService;
+import org.fireflyframework.data.observability.JobTracingService;
+import org.fireflyframework.data.orchestration.model.JobExecutionRequest;
+import org.fireflyframework.data.orchestration.port.JobOrchestrator;
+import org.fireflyframework.data.resiliency.ResiliencyDecoratorService;
+import org.fireflyframework.data.service.AbstractResilientDataJobService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;

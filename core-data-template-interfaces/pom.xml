@@ -12,8 +12,6 @@
     <artifactId>core-data-template-interfaces</artifactId>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -21,9 +19,8 @@
 
         <!-- Internal -->
         <dependency>
-            <groupId>com.firefly</groupId>
-            <artifactId>lib-utils</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.fireflyframework</groupId>
+            <artifactId>fireflyframework-utils</artifactId>
         </dependency>
 
         <!-- Validation -->

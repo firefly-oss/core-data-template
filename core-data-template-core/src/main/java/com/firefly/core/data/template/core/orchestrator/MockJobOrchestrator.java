@@ -1,9 +1,9 @@
 package com.firefly.core.data.template.core.orchestrator;
 
-import com.firefly.common.data.orchestration.model.JobExecution;
-import com.firefly.common.data.orchestration.model.JobExecutionRequest;
-import com.firefly.common.data.orchestration.model.JobExecutionStatus;
-import com.firefly.common.data.orchestration.port.JobOrchestrator;
+import org.fireflyframework.data.orchestration.model.JobExecution;
+import org.fireflyframework.data.orchestration.model.JobExecutionRequest;
+import org.fireflyframework.data.orchestration.model.JobExecutionStatus;
+import org.fireflyframework.data.orchestration.port.JobOrchestrator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
