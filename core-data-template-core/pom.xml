@@ -25,7 +25,7 @@
         <!-- Common Libraries -->
         <dependency>
             <groupId>org.fireflyframework</groupId>
-            <artifactId>fireflyframework-data</artifactId>
+            <artifactId>fireflyframework-starter-data</artifactId>
         </dependency>
 
         <!-- Spring WebFlux -->
